@@ -1,4 +1,4 @@
-package com.larren.abertsonsexam.presentation
+package com.larren.abertsonsexam.presentation.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -8,10 +8,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.larren.abertsonsexam.data.models.RandomUserResponse
 import com.larren.abertsonsexam.databinding.FragmentUserListBinding
 import com.larren.abertsonsexam.presentation.base.BaseFragment
-import com.larren.abertsonsexam.presentation.base.UserListViewModel
 import com.larren.abertsonsexam.presentation.state.ResultState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.FlowCollector
@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 class UserListFragment : BaseFragment<FragmentUserListBinding>() {
     private val viewModel: UserListViewModel by viewModels()
     private val collectRandomUserListState = FlowCollector(::onRandomUserListState)
+    private var adapter: UserListAdapter? = null
     override fun onViewCreated(binding: FragmentUserListBinding, savedInstanceState: Bundle?) {
         initView()
         observeUiState()
@@ -48,6 +49,11 @@ class UserListFragment : BaseFragment<FragmentUserListBinding>() {
 
     private fun initView() {
         viewModel.getRandomUserList(50)
+        adapter = UserListAdapter(listOf())
+        binding.apply {
+            rvUserList.layoutManager = LinearLayoutManager(requireContext())
+            rvUserList.adapter = adapter
+        }
     }
 
     override fun createBinding(

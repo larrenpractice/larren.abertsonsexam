@@ -1,4 +1,4 @@
-package com.larren.abertsonsexam.presentation.base
+package com.larren.abertsonsexam.presentation.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

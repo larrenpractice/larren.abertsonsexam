@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="user"
+            type="com.larren.abertsonsexam.data.models.User" />
+    </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -19,8 +27,10 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_marginEnd="16dp"
-                android:src="@{user.profilePicture}"
-                android:contentDescription="@string/profile_picture" />
+                android:contentDescription="@string/profile_picture"
+                app:imageUrl="@{user.picture.thumbnail}"
+                app:placeHolder="@{@drawable/person_placeholder_icon_24}"
+                tools:src="@drawable/person_placeholder_icon_24" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -32,22 +42,17 @@
                     android:id="@+id/first_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{user.firstName}"
+                    android:text="@{user.fullName}"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/last_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{user.lastName}"
-                    android:textSize="18sp" />
+                    android:textStyle="bold"
+                    tools:text="Juan" />
 
                 <TextView
                     android:id="@+id/address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{user.address}" />
+                    android:text="@{user.address}"
+                    tools:text="Manila City" />
 
             </LinearLayout>
 

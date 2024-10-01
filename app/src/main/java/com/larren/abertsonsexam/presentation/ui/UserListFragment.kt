@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 class UserListFragment : BaseFragment<FragmentUserListBinding>() {
     private val viewModel: UserListViewModel by viewModels()
     private val collectRandomUserListState = FlowCollector(::onRandomUserListState)
-    private var adapter: UserListAdapter? = null
+    private var userListAdapter: UserListAdapter? = null
     override fun onViewCreated(binding: FragmentUserListBinding, savedInstanceState: Bundle?) {
         initView()
         observeUiState()
@@ -39,7 +39,9 @@ class UserListFragment : BaseFragment<FragmentUserListBinding>() {
         when (state) {
             is ResultState.Loading -> {}
             is ResultState.Success -> {
-                Log.e("Fragment", "onRandomUserListState state: ${state.data}")
+                state.data?.results?.apply {
+                    userListAdapter?.updateData(this)
+                }
             }
 
             is ResultState.RemoteFailure -> {}
@@ -48,12 +50,12 @@ class UserListFragment : BaseFragment<FragmentUserListBinding>() {
     }
 
     private fun initView() {
-        viewModel.getRandomUserList(50)
-        adapter = UserListAdapter(listOf())
+        userListAdapter = UserListAdapter(emptyList())
         binding.apply {
             rvUserList.layoutManager = LinearLayoutManager(requireContext())
-            rvUserList.adapter = adapter
+            rvUserList.adapter = userListAdapter
         }
+        viewModel.getRandomUserList(50)
     }
 
     override fun createBinding(

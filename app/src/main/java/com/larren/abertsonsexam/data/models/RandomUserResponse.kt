@@ -33,6 +33,12 @@ data class User(
         val medium: String? = null,
         val thumbnail: String? = null
     )
+
+    val fullName: String
+        get() = "${name?.first} ${name?.last}"
+
+    val address: String
+        get() = "${location?.street?.name}, ${location?.street?.number}, ${location?.city}, ${location?.state}, ${location?.country}, ${location?.postcode}"
 }
 
 data class Info(

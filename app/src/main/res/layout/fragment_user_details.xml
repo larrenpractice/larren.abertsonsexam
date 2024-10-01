@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="user"
+            type="com.larren.abertsonsexam.data.models.User" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <!-- User Profile Picture -->
+        <FrameLayout
+            android:id="@+id/profileBackground"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:genderBackgroundColor="@{user.gender}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="200dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:contentDescription="@string/profile_picture"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{user.picture.large}"
+                app:isCircular="@{false}"
+                app:placeHolder="@{@drawable/person_placeholder_icon_24}"
+                tools:srcCompat="@tools:sample/avatars" />
+
+        </FrameLayout>
+
+        <!-- Name -->
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{user.fullName}"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileBackground"
+            tools:text="Joey Tribbiani" />
+
+        <!-- Location -->
+        <TextView
+            android:id="@+id/addressLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/user_details_address_label"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            tools:text="@string/user_details_address_label" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@{user.address}"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addressLabel"
+            tools:text="New York, USA" />
+
+        <!-- Follower and Following Counts -->
+        <LinearLayout
+            android:id="@+id/genderContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/address">
+
+            <TextView
+                android:id="@+id/gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="4dp"
+                android:text="@string/user_details_label_gender"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/genderValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{user.gender}"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="Male" />
+        </LinearLayout>
+
+        <!-- Email -->
+        <TextView
+            android:id="@+id/emailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/user_details_email_address_lable"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/genderContainer"
+            tools:text="Email Address" />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{user.email}"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/emailLabel"
+            tools:text="joey@sharenofood.com" />
+
+        <View
+            android:id="@+id/dividerEmail"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/email" />
+
+        <!-- Phone -->
+        <TextView
+            android:id="@+id/phoneLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/phone_number"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dividerEmail"
+            tools:text="@string/phone_number" />
+
+        <TextView
+            android:id="@+id/phoneValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{user.phone}"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/phoneLabel"
+            tools:text="+1-202-555-0157" />
+
+        <View
+            android:id="@+id/dividerPhone"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/phoneValue" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

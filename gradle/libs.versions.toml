@@ -16,6 +16,7 @@ okHttpVersion = "4.9.1"
 retrofitVersion = "2.11.0"
 secretVersion = "2.0.1"
 glideVersion = "4.12.0"
+nav = "4.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -52,4 +53,6 @@ jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotli
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
 secret = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretVersion" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+androidx-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navVersion" }
 

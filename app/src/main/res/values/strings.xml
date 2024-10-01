@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="profile_picture">Profile Image</string>
+    <string name="user_details_label_gender">Gender:</string>
+    <string name="user_details_email_address_lable">Email Address</string>
+    <string name="phone_number">Phone number:</string>
+    <string name="user_details_address_label">Address</string>
 </resources>

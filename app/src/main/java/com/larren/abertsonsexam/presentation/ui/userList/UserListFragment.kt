@@ -1,15 +1,16 @@
-package com.larren.abertsonsexam.presentation.ui
+package com.larren.abertsonsexam.presentation.ui.userList
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.larren.abertsonsexam.data.models.RandomUserResponse
+import com.larren.abertsonsexam.data.models.User
 import com.larren.abertsonsexam.databinding.FragmentUserListBinding
 import com.larren.abertsonsexam.presentation.base.BaseFragment
 import com.larren.abertsonsexam.presentation.state.ResultState
@@ -50,12 +51,19 @@ class UserListFragment : BaseFragment<FragmentUserListBinding>() {
     }
 
     private fun initView() {
-        userListAdapter = UserListAdapter(emptyList())
+        userListAdapter = UserListAdapter(emptyList(), ::onSelectedUser)
         binding.apply {
             rvUserList.layoutManager = LinearLayoutManager(requireContext())
             rvUserList.adapter = userListAdapter
         }
         viewModel.getRandomUserList(50)
+    }
+
+    private fun onSelectedUser(user: User) {
+        val action = UserListFragmentDirections.actionUserListFragmentToUserDetailsFragment(
+            userDetails = user
+        )
+        findNavController().navigate(action)
     }
 
     override fun createBinding(

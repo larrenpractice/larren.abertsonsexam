@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.secret)
     alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.androidx.navigation.safeargs)
 }
 
 android {

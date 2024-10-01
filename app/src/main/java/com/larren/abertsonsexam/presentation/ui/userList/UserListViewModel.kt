@@ -1,4 +1,4 @@
-package com.larren.abertsonsexam.presentation.ui
+package com.larren.abertsonsexam.presentation.ui.userList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,7 +7,6 @@ import com.larren.abertsonsexam.domain.usecases.GetRandomUserList
 import com.larren.abertsonsexam.domain.util.Response
 import com.larren.abertsonsexam.presentation.state.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

@@ -1,10 +1,11 @@
 package com.larren.abertsonsexam.data.repository
 
+import com.google.gson.Gson
+import com.larren.abertsonsexam.data.models.ErrorResponse
 import com.larren.abertsonsexam.data.models.RandomUserResponse
 import com.larren.abertsonsexam.domain.api.service.RandomUsersApi
 import com.larren.abertsonsexam.domain.repository.RandomUserRepository
 import com.larren.abertsonsexam.domain.util.Response
-import retrofit2.HttpException
 import javax.inject.Inject
 
 class RandomUserRepositoryImpl @Inject constructor(private val api: RandomUsersApi) :
@@ -16,10 +17,22 @@ class RandomUserRepositoryImpl @Inject constructor(private val api: RandomUsersA
             if (response.isSuccessful) {
                 Response.Success(response.body()!!)
             } else {
-                Response.Failure(throwable = HttpException(response))
+                val errorBody = response.errorBody()?.string()
+                val errorMessage = parseErrorMessage(errorBody)
+                Response.Failure(errorMessage = errorMessage)
             }
         } catch (e: Exception) {
-            Response.Failure(throwable = e)
+            Response.Failure(errorMessage = e.message ?: "${e.cause?.message}")
+        }
+    }
+
+    private fun parseErrorMessage(errorBody: String?): String {
+        return try {
+            val gson = Gson()
+            val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
+            errorResponse.error
+        } catch (e: Exception) {
+            "Unknown error"
         }
     }
 }

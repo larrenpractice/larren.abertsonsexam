@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,17 +27,21 @@ class UserListViewModel @Inject constructor(
 
     fun getRandomUserList(number: Int) {
         _queryNumber.value = number
+        _randomUserListState.value = ResultState.Loading(isLoading = true)
         viewModelScope.launch(Dispatchers.IO) {
             val result = when (val response = getRandomUserList.invoke(number)) {
                 is Response.Success -> ResultState.Success(response.value)
                 else -> {
-                    val throwableError = if (response is Response.Failure) {
-                        response.throwable
-                    } else Exception("Error Thing")
-                    ResultState.RemoteFailure(throwable = throwableError)
+                    val message = if (response is Response.Failure) {
+                        response.errorMessage
+                    } else "Error Thing"
+                    ResultState.RemoteFailure(message = message)
                 }
             }
-            _randomUserListState.value = result
+            withContext(Dispatchers.Main) {
+                _randomUserListState.value = ResultState.Loading(isLoading = false)
+                _randomUserListState.value = result
+            }
         }
     }
 }

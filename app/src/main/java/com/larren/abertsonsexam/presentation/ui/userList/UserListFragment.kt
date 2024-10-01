@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,6 +19,7 @@ import com.larren.abertsonsexam.data.models.User
 import com.larren.abertsonsexam.databinding.FragmentUserListBinding
 import com.larren.abertsonsexam.presentation.base.BaseFragment
 import com.larren.abertsonsexam.presentation.state.ResultState
+import com.larren.abertsonsexam.presentation.ui.dialog.ProgressLoadingDialog
 import com.larren.abertsonsexam.presentation.util.sanitizedInput
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.FlowCollector
@@ -43,16 +45,30 @@ class UserListFragment : BaseFragment<FragmentUserListBinding>() {
 
     private fun onRandomUserListState(state: ResultState<RandomUserResponse>) {
         when (state) {
-            is ResultState.Loading -> {}
+            is ResultState.Loading -> onLoading(state.isLoading)
             is ResultState.Success -> {
                 state.data?.results?.apply {
                     userListAdapter?.updateData(this)
                 }
             }
 
-            is ResultState.RemoteFailure -> {}
+            is ResultState.RemoteFailure -> onRemoteFailure(state.message)
             else -> {}
         }
+    }
+
+    private fun onRemoteFailure(message: String?) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.error_title)).setMessage(message)
+            .setPositiveButton(getString(R.string.error_positive_text)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun onLoading(isLoading: Boolean) {
+        if (isLoading) ProgressLoadingDialog.show(requireContext())
+        else ProgressLoadingDialog.hide()
     }
 
     private fun initView() {
@@ -97,6 +113,11 @@ class UserListFragment : BaseFragment<FragmentUserListBinding>() {
             userDetails = user
         )
         findNavController().navigate(action)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        ProgressLoadingDialog.hide()
     }
 
     override fun createBinding(

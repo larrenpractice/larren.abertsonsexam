@@ -6,4 +6,6 @@
     <string name="phone_number">Phone number:</string>
     <string name="user_details_address_label">Address</string>
     <string name="result_query">Search Result: %s</string>
+    <string name="error_title">Oops!</string>
+    <string name="error_positive_text">OK</string>
 </resources>

@@ -2,18 +2,23 @@ package com.larren.abertsonsexam.presentation.ui.userList
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.larren.abertsonsexam.R
 import com.larren.abertsonsexam.data.models.RandomUserResponse
 import com.larren.abertsonsexam.data.models.User
 import com.larren.abertsonsexam.databinding.FragmentUserListBinding
 import com.larren.abertsonsexam.presentation.base.BaseFragment
 import com.larren.abertsonsexam.presentation.state.ResultState
+import com.larren.abertsonsexam.presentation.util.sanitizedInput
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch
@@ -55,8 +60,36 @@ class UserListFragment : BaseFragment<FragmentUserListBinding>() {
         binding.apply {
             rvUserList.layoutManager = LinearLayoutManager(requireContext())
             rvUserList.adapter = userListAdapter
+            searchView.setOnQueryTextListener(setOnQueryTextListener)
+            val queryNumber = viewModel.queryNumber.value
+            updateQueryLabel(queryNumber)
         }
-        viewModel.getRandomUserList(50)
+    }
+
+    private val setOnQueryTextListener = object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            query?.sanitizedInput?.let {
+                val number = it.toIntOrNull() ?: 0
+                viewModel.getRandomUserList(number)
+                updateQueryLabel(number)
+            }
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            return true
+        }
+    }
+
+    private fun updateQueryLabel(query: Int?) {
+        binding.tvQuery.apply {
+            if (query == null) {
+                visibility = GONE
+            } else {
+                visibility = VISIBLE
+                text = getString(R.string.result_query, query.toString())
+            }
+        }
     }
 
     private fun onSelectedUser(user: User) {

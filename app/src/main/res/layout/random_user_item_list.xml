@@ -29,7 +29,6 @@
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/profile_picture"
                 app:imageUrl="@{user.picture.thumbnail}"
-                app:isCircular="@{true}"
                 app:placeHolder="@{@drawable/person_placeholder_icon_24}"
                 tools:src="@drawable/person_placeholder_icon_24" />
 

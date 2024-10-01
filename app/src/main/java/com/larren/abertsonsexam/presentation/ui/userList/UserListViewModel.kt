@@ -7,6 +7,7 @@ import com.larren.abertsonsexam.domain.usecases.GetRandomUserList
 import com.larren.abertsonsexam.domain.util.Response
 import com.larren.abertsonsexam.presentation.state.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -19,8 +20,13 @@ class UserListViewModel @Inject constructor(
     private val _randomUserListState =
         MutableStateFlow<ResultState<RandomUserResponse>>(ResultState.Default())
     val randomUserListState = _randomUserListState.asStateFlow()
+
+    private val _queryNumber = MutableStateFlow<Int?>(null)
+    val queryNumber = _queryNumber.asStateFlow()
+
     fun getRandomUserList(number: Int) {
-        viewModelScope.launch {
+        _queryNumber.value = number
+        viewModelScope.launch(Dispatchers.IO) {
             val result = when (val response = getRandomUserList.invoke(number)) {
                 is Response.Success -> ResultState.Success(response.value)
                 else -> {

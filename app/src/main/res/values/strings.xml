@@ -5,4 +5,5 @@
     <string name="user_details_email_address_lable">Email Address</string>
     <string name="phone_number">Phone number:</string>
     <string name="user_details_address_label">Address</string>
+    <string name="result_query">Search Result: %s</string>
 </resources>

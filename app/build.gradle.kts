@@ -59,7 +59,6 @@ dependencies {
     implementation(libs.navigation.ui.ktx)
     //Dependency Injection
     implementation(libs.hilt.android)
-    testImplementation(libs.junit.junit)
     ksp(libs.hilt.compiler)
     //Network
     implementation(libs.retrofit)
@@ -72,10 +71,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    testImplementation(libs.mockito.core) // Or latest version// You might also need this for mocking Kotlin classes
-    testImplementation(libs.mockito.kotlin) // Or latest version
-    testImplementation(libs.kotlinx.coroutines.test) // Or latest version
-    testImplementation(libs.mockito.inline) // Or latest version
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.kotlinx.coroutines.test)
+    // Turbine
+    testImplementation(libs.turbine)
+    testImplementation(libs.mockito.inline)
 }
 
 secrets {

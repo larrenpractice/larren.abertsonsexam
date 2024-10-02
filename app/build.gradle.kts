@@ -68,15 +68,18 @@ dependencies {
     // Glide
     implementation(libs.glide)
 
+    //Test
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.mockito.inline)
     testImplementation(libs.kotlinx.coroutines.test)
     // Turbine
     testImplementation(libs.turbine)
-    testImplementation(libs.mockito.inline)
+
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+
 }
 
 secrets {

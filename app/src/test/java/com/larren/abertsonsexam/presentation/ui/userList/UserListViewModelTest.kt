@@ -12,23 +12,23 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito
+import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.whenever
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 class UserListViewModelTest {
 
     private lateinit var viewModel: UserListViewModel
+
+    @Mock
     private lateinit var getRandomUserList: GetRandomUserList
 
-    // Use the test dispatcher for coroutine control
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
-        getRandomUserList = Mockito.mock(GetRandomUserList::class.java)
         viewModel = UserListViewModel(
             getRandomUserList = getRandomUserList,
             ioDispatcher = testDispatcher,
@@ -42,7 +42,7 @@ class UserListViewModelTest {
         val mockResponse = RandomUserResponse()
 
         // Mock the behavior of the use case to return a success response
-        Mockito.`when`(getRandomUserList.invoke(numberOfUsers))
+        whenever(getRandomUserList.invoke(numberOfUsers))
             .thenReturn(Response.Success(mockResponse))
 
         // Start collecting emissions from the StateFlow
@@ -101,9 +101,12 @@ class UserListViewModelTest {
         val numberOfUsers = 5
 
         viewModel.queryNumber.test {
+            // Trigger the function
             viewModel.getRandomUserList(numberOfUsers)
+
             // Default value of queryNumber
             assertEquals(null, awaitItem())
+
             // Move the coroutine forward to capture the assigned value
             assertEquals(numberOfUsers, awaitItem())
 
